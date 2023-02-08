@@ -1,10 +1,14 @@
 import ERROR_MESSAGES from "./constant";
 
-class Calculator {
+export default class Calculator {
   #num1 = 0;
   #num2 = 0;
   #op = null;
   #current = 0;
+
+  constructor() {
+    this.clear();
+  }
 
   add(n, m) {
     return n + m;
@@ -20,7 +24,7 @@ class Calculator {
     return Math.floor(n / m);
   }
 
-  initialize() {
+  clear() {
     this.#num1 = 0;
     this.#num2 = 0;
     this.#op = null;
@@ -32,7 +36,6 @@ export const useOperator = (calculator) => ({
   "+": calculator.add,
   "-": calculator.subtract,
   x: calculator.multiply,
+  X: calculator.multiply,
   "/": calculator.divide,
 });
-
-export default Calculator;
