@@ -11,23 +11,28 @@ const digits = Array.from({ length: 10 }, (_, idx) => idx).sort((a, b) => b - a)
 const modifiers = ["/", "X", "-", "+", "="];
 
 function Calculator({ calculator }) {
-  const [input, setInput] = useState(0);
+  const [display, setDisplay] = useState("0");
 
-  const numberPressHandler = (value) => {
-    setInput("hello");
+  const buttonPressHandler = (value) => {
+    try {
+      calculator.input(value);
+      setDisplay(calculator.output());
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   const clear = () => {
-    setInput("0");
+    setDisplay("0");
     calculator.clear();
   };
 
   return (
     <div className={styles.calculator}>
-      <StatusPane>{input}</StatusPane>
+      <StatusPane>{display}</StatusPane>
       <div className={getClassNames([styles.digits, styles.flex])}>
         {digits.map((number) => (
-          <DigitButton value={number} key={number} onClick={numberPressHandler} />
+          <DigitButton value={number} key={number} onClick={buttonPressHandler} />
         ))}
       </div>
       <div className={getClassNames([styles.modifiers, styles.subgrid])}>
@@ -35,7 +40,7 @@ function Calculator({ calculator }) {
       </div>
       <div className={getClassNames([styles.operations, styles.subgrid])}>
         {modifiers.map((modifier) => (
-          <ModifierButton key={modifier}>{modifier}</ModifierButton>
+          <ModifierButton key={modifier} modifier={modifier} onClick={buttonPressHandler} />
         ))}
       </div>
     </div>
